@@ -174,41 +174,27 @@ $(document).ready(function(){initNavTree('structcompatible.html',''); initResiza
 <div class="line"><span class="keyword">struct </span>person_v2 {</div>
 <div class="line">  <span class="keywordtype">int</span> age;</div>
 <div class="line">  std::string name;</div>
-<div class="line">  struct_pack::compatible&lt;std::size_t&gt; id;</div>
+<div class="line">  struct_pack::compatible&lt;std::size_t, 20210101&gt; id; <span class="comment">//20210101为版本号</span></div>
 <div class="line">};</div>
-</div><!-- fragment --><p>注意，compatibale字段只能添加到结构体的末尾！否则会导致编译错误。例如，假设有以下代码：</p>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>person2 {</div>
-<div class="line">  <span class="keywordtype">int</span> age;</div>
-<div class="line">  struct_pack::compatible&lt;int32_t&gt; id;</div>
-<div class="line">  std::string name;</div>
-<div class="line">  struct_pack::compatible&lt;std::size_t&gt; id2;</div>
-<div class="line">};</div>
-<div class="line">person2 p = {.id=1,.age=1,.name=<span class="stringliteral">&quot;Hello&quot;</span>,.id2=514};</div>
-<div class="line"><span class="keyword">auto</span> data = <a class="code hl_function" href="group__struct__pack.html#gad34a823ffadd0838074f98740575fde1">struct_pack::serialize</a>(p);</div>
-<div class="ttc" id="agroup__struct__pack_html_gad34a823ffadd0838074f98740575fde1"><div class="ttname"><a href="group__struct__pack.html#gad34a823ffadd0838074f98740575fde1">struct_pack::serialize</a></div><div class="ttdeci">STRUCT_PACK_INLINE Buffer serialize(const Args &amp;...args)</div></div>
-</div><!-- fragment --><p>则编译时会直接报错：</p>
-<div class="fragment"><div class="line">error: <span class="keyword">static_assert</span> failed, <span class="stringliteral">&quot;The position of compatible&lt;T&gt; in struct is not</span></div>
-<div class="line"><span class="stringliteral">allowed!&quot;</span></div>
-</div><!-- fragment --><p><code>struct_pack::compatible&lt;T&gt;</code> 可以为空值，从而保证向前和向后的兼容性。 例如，序列化person1，然后将其按照person来反序列化，多传输的字段在反序列化时将会被直接忽略。 反过来说，序列化person，再将其按照person1来反序列化，则解析出的person1中的compatibale字段均为空值。</p>
-<div class="fragment"><div class="line">person_v2 p2{20, <span class="stringliteral">&quot;tom&quot;</span>, 1, <span class="keyword">false</span>};</div>
+</div><!-- fragment --><p><code>struct_pack::compatible&lt;T, version_number&gt;</code> 可以为空值，从而保证向前和向后的兼容性。 例如，序列化person_v2，然后将其按照person_v1来反序列化，多余的字段在反序列化时将会被直接忽略。 反过来说，序列化person_v1，再将其按照person_v2来反序列化，则解析出的person_v2中的compatibale字段均为空值。</p>
+<p>compatible字段的版本号可以省略，默认版本号为0。</p>
+<div class="fragment"><div class="line">person_v2 p2{20, <span class="stringliteral">&quot;tom&quot;</span>, 114.1, <span class="stringliteral">&quot;tom&quot;</span>};</div>
 <div class="line"><span class="keyword">auto</span> buf = <a class="code hl_function" href="group__struct__pack.html#gad34a823ffadd0838074f98740575fde1">struct_pack::serialize</a>(p2);</div>
 <div class="line"> </div>
 <div class="line">person_v1 p1;</div>
-<div class="line"><span class="comment">// person_v2按person_v1反序列化</span></div>
+<div class="line"><span class="comment">// deserialize person_v2 as person_v1</span></div>
 <div class="line"><span class="keyword">auto</span> ec = <a class="code hl_function" href="group__struct__pack.html#gaee43e648cfb5ab92aeca20b3c2a1dbc3">struct_pack::deserialize_to</a>(p1, buf.data(), buf.size());</div>
 <div class="line">CHECK(ec == std::errc{});</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">auto</span> buf1 = <a class="code hl_function" href="group__struct__pack.html#gad34a823ffadd0838074f98740575fde1">struct_pack::serialize</a>(p1);</div>
-<div class="line">person_v1 p3;</div>
-<div class="line"><span class="comment">// person_v1按照person_v2反序列化</span></div>
+<div class="line">person_v2 p3;</div>
+<div class="line"><span class="comment">// deserialize person_v1 as person_v2</span></div>
 <div class="line"><span class="keyword">auto</span> ec = <a class="code hl_function" href="group__struct__pack.html#gaee43e648cfb5ab92aeca20b3c2a1dbc3">struct_pack::deserialize_to</a>(p3, buf1.data(), buf1.size());</div>
 <div class="line">CHECK(ec == std::errc{});</div>
+<div class="ttc" id="agroup__struct__pack_html_gad34a823ffadd0838074f98740575fde1"><div class="ttname"><a href="group__struct__pack.html#gad34a823ffadd0838074f98740575fde1">struct_pack::serialize</a></div><div class="ttdeci">STRUCT_PACK_INLINE Buffer serialize(const Args &amp;...args)</div></div>
 <div class="ttc" id="agroup__struct__pack_html_gaee43e648cfb5ab92aeca20b3c2a1dbc3"><div class="ttname"><a href="group__struct__pack.html#gaee43e648cfb5ab92aeca20b3c2a1dbc3">struct_pack::deserialize_to</a></div><div class="ttdeci">STRUCT_PACK_INLINE std::errc deserialize_to(T &amp;t, const Byte *data, size_t size, Args... args)</div></div>
-</div><!-- fragment --><p>升级接口时应注意保持 <b>只增不改</b> 原则：</p><ol type="1">
-<li>只允许在原有的类末尾增加<code>struct_pack::compatible&lt;T&gt;</code>字段。</li>
-<li>不允许改变上一版接口中的任何字段。</li>
-</ol>
-<p>假如违反这一原则，大部分情况下会引发编译错误。 但是，如果修改了类末尾的 compatible&lt;T&gt; 字段, 那么可能会引发未定义行为。 例如：</p>
+</div><!-- fragment --><p>升级接口时应注意保持 <b>版本号递增</b> 原则： 1. 新增加的compatible字段的版本号，应该大于上一次增加的compatible字段的版本号。 2. 不得移除原来的任何一个compatible字段（移除非compatible字段也会出错，但这种错误是可以被类型校验检查出来的）</p>
+<p>假如违反这一原则，那么可能会引发未定义行为。 例如：</p>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>loginRequest_V1</div>
 <div class="line">{</div>
 <div class="line">  <span class="keywordtype">string</span> user_name;</div>
@@ -221,6 +207,25 @@ $(document).ready(function(){initNavTree('structcompatible.html',''); initResiza
 <div class="line">  <span class="keywordtype">string</span> user_name;</div>
 <div class="line">  <span class="keywordtype">string</span> pass_word;</div>
 <div class="line">  struct_pack::compatible&lt;network::ip&gt; ip_address;</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">auto</span> data=<a class="code hl_function" href="group__struct__pack.html#gad34a823ffadd0838074f98740575fde1">struct_pack::serialize</a>(loginRequest_V1{});</div>
+<div class="line">loginRequest_V2 req;</div>
+<div class="line"><span class="comment">//该行为是未定义的！</span></div>
+<div class="line"><a class="code hl_function" href="group__struct__pack.html#gaee43e648cfb5ab92aeca20b3c2a1dbc3">struct_pack::deserialize_to</a>(req, data);</div>
+</div><!-- fragment --><div class="fragment"><div class="line"><span class="keyword">struct </span>loginRequest_V1</div>
+<div class="line">{</div>
+<div class="line">  <span class="keywordtype">string</span> user_name;</div>
+<div class="line">  <span class="keywordtype">string</span> pass_word;</div>
+<div class="line">  struct_pack::compatible&lt;string, 20210101&gt; verification_code;</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">struct </span>loginRequest_V2</div>
+<div class="line">{</div>
+<div class="line">  <span class="keywordtype">string</span> user_name;</div>
+<div class="line">  <span class="keywordtype">string</span> pass_word;</div>
+<div class="line">  struct_pack::compatible&lt;string, 20210101&gt; verification_code;</div>
+<div class="line">  struct_pack::compatible&lt;network::ip, 20000101&gt; ip_address;</div>
 <div class="line">};</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">auto</span> data=<a class="code hl_function" href="group__struct__pack.html#gad34a823ffadd0838074f98740575fde1">struct_pack::serialize</a>(loginRequest_V1{});</div>

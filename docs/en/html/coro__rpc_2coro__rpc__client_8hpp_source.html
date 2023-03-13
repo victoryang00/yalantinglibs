@@ -230,154 +230,154 @@ $(document).ready(function(){initNavTree('coro__rpc_2coro__rpc__client_8hpp_sour
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>  <span class="keyword">using </span>coro_rpc_protocol = coro_rpc::protocol::coro_rpc_protocol;</div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="classcoro__rpc_1_1coro__rpc__client.html#a076c617b04c0a5afb7f8e53dba903d7b">  100</a></span>  <a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#a076c617b04c0a5afb7f8e53dba903d7b">coro_rpc_client</a>(asio::io_context &amp;io_context, uint32_t client_id = 0)</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>      : io_context_ptr_(&amp;io_context),</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        executor_(io_context),</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        socket_(io_context),</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        client_id_(client_id) {</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    read_buf_.resize(default_read_buf_size_);</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>  }</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="classcoro__rpc_1_1coro__rpc__client.html#aaa0281fdd4c7bdd834e54493e0ea629a">  111</a></span>  <a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#aaa0281fdd4c7bdd834e54493e0ea629a">coro_rpc_client</a>(uint32_t client_id = 0)</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>      : inner_io_context_(std::make_unique&lt;asio::io_context&gt;()),</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        io_context_ptr_(inner_io_context_.get()),</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        executor_(*inner_io_context_),</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        socket_(*inner_io_context_),</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        client_id_(client_id) {</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    std::promise&lt;void&gt; promise;</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    thd_ = std::thread([<span class="keyword">this</span>, &amp;promise] {</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>      work_ = std::make_unique&lt;asio::io_context::work&gt;(*inner_io_context_);</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>      asio::post(*io_context_ptr_, [&amp;] {</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        promise.set_value();</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>      });</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>      inner_io_context_-&gt;run();</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    });</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    promise.get_future().wait();</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>  }</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="classcoro__rpc_1_1coro__rpc__client.html#ad77d17da7997732f650146a149319563">  133</a></span>  [[nodiscard]] <span class="keywordtype">bool</span> <a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#ad77d17da7997732f650146a149319563">has_closed</a>() { <span class="keywordflow">return</span> has_closed_; }</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno"><a class="line" href="classcoro__rpc_1_1coro__rpc__client.html#ad03906fa7bffb953c06a09002b72e84b">  146</a></span>  [[nodiscard]] async_simple::coro::Lazy&lt;std::errc&gt; <a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#ad03906fa7bffb953c06a09002b72e84b">connect</a>(</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>      std::string host, std::string port,</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>      std::chrono::steady_clock::duration timeout_duration =</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>          std::chrono::seconds(5)) {</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">#ifdef ENABLE_SSL</span></div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keywordflow">if</span> (!ssl_init_ret_) {</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>      <span class="keyword">co_return</span> std::errc::not_connected;</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    }</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="keywordflow">if</span> (has_closed_) [[unlikely]] {</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>      ELOGV(ERROR,</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>            <span class="stringliteral">&quot;a closed client is not allowed connect again, please create a new &quot;</span></div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>            <span class="stringliteral">&quot;client&quot;</span>);</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>      <span class="keyword">co_return</span> std::errc::io_error;</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    }</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    ELOGV(INFO, <span class="stringliteral">&quot;client_id %d begin to connect %s&quot;</span>, client_id_, port.data());</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    async_simple::Promise&lt;async_simple::Unit&gt; promise;</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    asio_util::period_timer timer(get_io_context());</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    timeout(timer, timeout_duration, promise, <span class="stringliteral">&quot;connect timer canceled&quot;</span>)</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        .via(&amp;executor_)</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        .detach();</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    std::error_code ec = <span class="keyword">co_await</span> asio_util::async_connect(get_io_context(),</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>                                                           socket_, host, port);</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    std::error_code err_code;</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    timer.cancel(err_code);</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    <span class="keyword">co_await</span> promise.getFuture();</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <span class="keywordflow">if</span> (ec) {</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>      <span class="keywordflow">if</span> (is_timeout_) {</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        <span class="keyword">co_return</span> std::errc::timed_out;</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>      }</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>      <span class="keyword">co_return</span> std::errc::not_connected;</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    }</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <span class="keywordflow">if</span> (is_timeout_) {</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>      ELOGV(WARN, <span class="stringliteral">&quot;client_id %d connect timeout&quot;</span>, client_id_);</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>      <span class="keyword">co_return</span> std::errc::timed_out;</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    }</div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span> </div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span><span class="preprocessor">#ifdef ENABLE_SSL</span></div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    <span class="keywordflow">if</span> (use_ssl_) {</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>      assert(ssl_stream_);</div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>      <span class="keyword">auto</span> shake_ec = <span class="keyword">co_await</span> asio_util::async_handshake(</div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>          ssl_stream_, asio::ssl::stream_base::client);</div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>      <span class="keywordflow">if</span> (shake_ec) {</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        ELOGV(WARN, <span class="stringliteral">&quot;client_id %d handshake failed: %s&quot;</span>, client_id_,</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>              shake_ec.message().data());</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>        <span class="keyword">co_return</span> std::errc::not_connected;</div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>      }</div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    }</div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    <span class="keyword">co_return</span> std::errc{};</div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>  }</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="preprocessor">#ifdef ENABLE_SSL</span></div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>  [[nodiscard]] <span class="keywordtype">bool</span> init_ssl(<span class="keyword">const</span> std::string &amp;base_path,</div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>                              <span class="keyword">const</span> std::string &amp;cert_file,</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>                              <span class="keyword">const</span> std::string &amp;domain = <span class="stringliteral">&quot;localhost&quot;</span>) {</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    <span class="keywordflow">try</span> {</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>      ssl_init_ret_ = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>      ELOGV(INFO, <span class="stringliteral">&quot;init ssl: %s&quot;</span>, domain.data());</div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>      <span class="keyword">auto</span> full_cert_file = std::filesystem::path(base_path).append(cert_file);</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>      ELOGV(INFO, <span class="stringliteral">&quot;current path %s&quot;</span>,</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>            std::filesystem::current_path().<span class="keywordtype">string</span>().data());</div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>      <span class="keywordflow">if</span> (<a class="code hl_function" href="common__service_8hpp.html#a5fc3482cb664dab769dc6a2622b2a282">file_exists</a>(full_cert_file)) {</div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>        ELOGV(INFO, <span class="stringliteral">&quot;load %s&quot;</span>, full_cert_file.string().data());</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        ssl_ctx_.load_verify_file(full_cert_file);</div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>      }</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>      <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>        ELOGV(INFO, <span class="stringliteral">&quot;no certificate file %s&quot;</span>, full_cert_file.string().data());</div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>        <span class="keywordflow">return</span> ssl_init_ret_;</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>      }</div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>      ssl_ctx_.set_verify_mode(asio::ssl::verify_peer);</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>      <span class="comment">// ssl_ctx_.add_certificate_authority(asio::buffer(CA_PEM));</span></div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span> </div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>      ssl_ctx_.set_verify_callback(asio::ssl::host_name_verification(domain));</div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>      ssl_stream_ =</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>          std::make_unique&lt;asio::ssl::stream&lt;asio::ip::tcp::socket &amp;&gt;&gt;(</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>              socket_, ssl_ctx_);</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>      use_ssl_ = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>      ssl_init_ret_ = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    } <span class="keywordflow">catch</span> (std::exception &amp;e) {</div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>      ELOGV(ERROR, <span class="stringliteral">&quot;init ssl failed: %s&quot;</span>, e.what());</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    }</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    <span class="keywordflow">return</span> ssl_init_ret_;</div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>  }</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>  ~coro_rpc_client() {</div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    close();</div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    stop_inner_io_context();</div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>  }</div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span> </div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>  <span class="keyword">template</span> &lt;<span class="keyword">auto</span> func, <span class="keyword">typename</span>... Args&gt;</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>  async_simple::coro::Lazy&lt;</div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>      rpc_result&lt;decltype(get_return_type&lt;func&gt;()), coro_rpc_protocol&gt;&gt;</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno"><a class="line" href="classcoro__rpc_1_1coro__rpc__client.html#a18d487022c0e8da13755249ab0062d8b">  254</a></span>  <a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#a18d487022c0e8da13755249ab0062d8b">call</a>(Args... args) {</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>    <span class="keywordflow">return</span> call_for&lt;func&gt;(std::chrono::seconds(5), std::move(args)...);</div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>  }</div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span> </div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>  <span class="keyword">template</span> &lt;<span class="keyword">auto</span> func, <span class="keyword">typename</span>... Args&gt;</div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>  async_simple::coro::Lazy&lt;</div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>      rpc_result&lt;decltype(get_return_type&lt;func&gt;()), coro_rpc_protocol&gt;&gt;</div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno"><a class="line" href="classcoro__rpc_1_1coro__rpc__client.html#a45956d2dfb6d78ad7e461f429d85c63a">  272</a></span>  <a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#a45956d2dfb6d78ad7e461f429d85c63a">call_for</a>(<span class="keyword">auto</span> duration, Args... args) {</div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    <span class="keyword">using </span>R = <span class="keyword">decltype</span>(get_return_type&lt;func&gt;());</div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span> </div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    <span class="keywordflow">if</span> (has_closed_) [[unlikely]] {</div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>      ELOGV(ERROR,</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>            <span class="stringliteral">&quot;a closed client is not allowed call again, please create a new &quot;</span></div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>            <span class="stringliteral">&quot;client&quot;</span>);</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>      <span class="keyword">auto</span> ret = rpc_result&lt;R, coro_rpc_protocol&gt;{</div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>          unexpect_t{},</div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>          coro_rpc_protocol::rpc_error{</div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>              std::errc::io_error,</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>              <span class="stringliteral">&quot;client has been closed, please create a new client&quot;</span>}};</div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>      <span class="keyword">co_return</span> ret;</div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>    }</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="classcoro__rpc_1_1coro__rpc__client.html#a0bfd666b5c5399e5e3336b8c043cf135">  100</a></span>  <a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#a0bfd666b5c5399e5e3336b8c043cf135">coro_rpc_client</a>(asio::io_context::executor_type executor,</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                  uint32_t client_id = 0)</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>      : executor_wrapper_(executor), socket_(executor), client_id_(client_id) {</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    read_buf_.resize(default_read_buf_size_);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>  }</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="classcoro__rpc_1_1coro__rpc__client.html#aaa0281fdd4c7bdd834e54493e0ea629a">  109</a></span>  <a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#aaa0281fdd4c7bdd834e54493e0ea629a">coro_rpc_client</a>(uint32_t client_id = 0)</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>      : inner_io_context_(std::make_unique&lt;asio::io_context&gt;()),</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        executor_wrapper_(inner_io_context_-&gt;<a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#a8eb3073f969ef8d2085cc1ff5192d818">get_executor</a>()),</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        socket_(inner_io_context_-&gt;<a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#a8eb3073f969ef8d2085cc1ff5192d818">get_executor</a>()),</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        client_id_(client_id) {</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    std::promise&lt;void&gt; promise;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    thd_ = std::thread([<span class="keyword">this</span>, &amp;promise] {</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>      work_ = std::make_unique&lt;asio::io_context::work&gt;(*inner_io_context_);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>      asio::post(executor_wrapper_.get_executor(), [&amp;] {</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        promise.set_value();</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>      });</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>      inner_io_context_-&gt;run();</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    });</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    promise.get_future().wait();</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>  }</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="classcoro__rpc_1_1coro__rpc__client.html#ad77d17da7997732f650146a149319563">  130</a></span>  [[nodiscard]] <span class="keywordtype">bool</span> <a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#ad77d17da7997732f650146a149319563">has_closed</a>() { <span class="keywordflow">return</span> has_closed_; }</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno"><a class="line" href="classcoro__rpc_1_1coro__rpc__client.html#ad03906fa7bffb953c06a09002b72e84b">  143</a></span>  [[nodiscard]] async_simple::coro::Lazy&lt;std::errc&gt; <a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#ad03906fa7bffb953c06a09002b72e84b">connect</a>(</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>      std::string host, std::string port,</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>      std::chrono::steady_clock::duration timeout_duration =</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>          std::chrono::seconds(5)) {</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="preprocessor">#ifdef ENABLE_SSL</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <span class="keywordflow">if</span> (!ssl_init_ret_) {</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>      <span class="keyword">co_return</span> std::errc::not_connected;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    }</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    <span class="keywordflow">if</span> (has_closed_)</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>      AS_UNLIKELY {</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        ELOGV(</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>            ERROR,</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>            <span class="stringliteral">&quot;a closed client is not allowed connect again, please create a new &quot;</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>            <span class="stringliteral">&quot;client&quot;</span>);</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        <span class="keyword">co_return</span> std::errc::io_error;</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>      }</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    ELOGV(INFO, <span class="stringliteral">&quot;client_id %d begin to connect %s&quot;</span>, client_id_, port.data());</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    async_simple::Promise&lt;async_simple::Unit&gt; promise;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    asio_util::period_timer timer(executor_wrapper_.get_executor());</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    timeout(timer, timeout_duration, promise, <span class="stringliteral">&quot;connect timer canceled&quot;</span>)</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        .via(&amp;executor_wrapper_)</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        .detach();</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    std::error_code ec = <span class="keyword">co_await</span> asio_util::async_connect(</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        executor_wrapper_.get_executor(), socket_, host, port);</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    std::error_code err_code;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    timer.cancel(err_code);</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <span class="keyword">co_await</span> promise.getFuture();</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    <span class="keywordflow">if</span> (ec) {</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>      <span class="keywordflow">if</span> (is_timeout_) {</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        <span class="keyword">co_return</span> std::errc::timed_out;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>      }</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>      <span class="keyword">co_return</span> std::errc::not_connected;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    }</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    <span class="keywordflow">if</span> (is_timeout_) {</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>      ELOGV(WARN, <span class="stringliteral">&quot;client_id %d connect timeout&quot;</span>, client_id_);</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>      <span class="keyword">co_return</span> std::errc::timed_out;</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    }</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span><span class="preprocessor">#ifdef ENABLE_SSL</span></div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    <span class="keywordflow">if</span> (use_ssl_) {</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>      assert(ssl_stream_);</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>      <span class="keyword">auto</span> shake_ec = <span class="keyword">co_await</span> asio_util::async_handshake(</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>          ssl_stream_, asio::ssl::stream_base::client);</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>      <span class="keywordflow">if</span> (shake_ec) {</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>        ELOGV(WARN, <span class="stringliteral">&quot;client_id %d handshake failed: %s&quot;</span>, client_id_,</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>              shake_ec.message().data());</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        <span class="keyword">co_return</span> std::errc::not_connected;</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>      }</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    }</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span> </div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    <span class="keyword">co_return</span> std::errc{};</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>  }</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="preprocessor">#ifdef ENABLE_SSL</span></div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>  [[nodiscard]] <span class="keywordtype">bool</span> init_ssl(<span class="keyword">const</span> std::string &amp;base_path,</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>                              <span class="keyword">const</span> std::string &amp;cert_file,</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>                              <span class="keyword">const</span> std::string &amp;domain = <span class="stringliteral">&quot;localhost&quot;</span>) {</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    <span class="keywordflow">try</span> {</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>      ssl_init_ret_ = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>      ELOGV(INFO, <span class="stringliteral">&quot;init ssl: %s&quot;</span>, domain.data());</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>      <span class="keyword">auto</span> full_cert_file = std::filesystem::path(base_path).append(cert_file);</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>      ELOGV(INFO, <span class="stringliteral">&quot;current path %s&quot;</span>,</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>            std::filesystem::current_path().<span class="keywordtype">string</span>().data());</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>      <span class="keywordflow">if</span> (<a class="code hl_function" href="common__service_8hpp.html#a5fc3482cb664dab769dc6a2622b2a282">file_exists</a>(full_cert_file)) {</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>        ELOGV(INFO, <span class="stringliteral">&quot;load %s&quot;</span>, full_cert_file.string().data());</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>        ssl_ctx_.load_verify_file(full_cert_file);</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>      }</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>      <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>        ELOGV(INFO, <span class="stringliteral">&quot;no certificate file %s&quot;</span>, full_cert_file.string().data());</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>        <span class="keywordflow">return</span> ssl_init_ret_;</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>      }</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>      ssl_ctx_.set_verify_mode(asio::ssl::verify_peer);</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span> </div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>      <span class="comment">// ssl_ctx_.add_certificate_authority(asio::buffer(CA_PEM));</span></div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span> </div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>      ssl_ctx_.set_verify_callback(asio::ssl::host_name_verification(domain));</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>      ssl_stream_ =</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>          std::make_unique&lt;asio::ssl::stream&lt;asio::ip::tcp::socket &amp;&gt;&gt;(</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>              socket_, ssl_ctx_);</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>      use_ssl_ = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>      ssl_init_ret_ = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    } <span class="keywordflow">catch</span> (std::exception &amp;e) {</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>      ELOGV(ERROR, <span class="stringliteral">&quot;init ssl failed: %s&quot;</span>, e.what());</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    }</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    <span class="keywordflow">return</span> ssl_init_ret_;</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>  }</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span> </div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>  ~coro_rpc_client() {</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    close();</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    stop_inner_io_context();</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>  }</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>  <span class="keyword">template</span> &lt;<span class="keyword">auto</span> func, <span class="keyword">typename</span>... Args&gt;</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>  async_simple::coro::Lazy&lt;</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>      rpc_result&lt;decltype(get_return_type&lt;func&gt;()), coro_rpc_protocol&gt;&gt;</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno"><a class="line" href="classcoro__rpc_1_1coro__rpc__client.html#a18d487022c0e8da13755249ab0062d8b">  253</a></span>  <a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#a18d487022c0e8da13755249ab0062d8b">call</a>(Args... args) {</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    <span class="keywordflow">return</span> call_for&lt;func&gt;(std::chrono::seconds(5), std::move(args)...);</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>  }</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span> </div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>  <span class="keyword">template</span> &lt;<span class="keyword">auto</span> func, <span class="keyword">typename</span>... Args&gt;</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>  async_simple::coro::Lazy&lt;</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>      rpc_result&lt;decltype(get_return_type&lt;func&gt;()), coro_rpc_protocol&gt;&gt;</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno"><a class="line" href="classcoro__rpc_1_1coro__rpc__client.html#a45956d2dfb6d78ad7e461f429d85c63a">  271</a></span>  <a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#a45956d2dfb6d78ad7e461f429d85c63a">call_for</a>(<span class="keyword">auto</span> duration, Args... args) {</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    <span class="keyword">using </span>R = <span class="keyword">decltype</span>(get_return_type&lt;func&gt;());</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span> </div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    <span class="keywordflow">if</span> (has_closed_)</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>      AS_UNLIKELY {</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>        ELOGV(ERROR,</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>              <span class="stringliteral">&quot;a closed client is not allowed call again, please create a new &quot;</span></div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>              <span class="stringliteral">&quot;client&quot;</span>);</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>        <span class="keyword">auto</span> ret = rpc_result&lt;R, coro_rpc_protocol&gt;{</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>            unexpect_t{},</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>            coro_rpc_protocol::rpc_error{</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>                std::errc::io_error,</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>                <span class="stringliteral">&quot;client has been closed, please create a new client&quot;</span>}};</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>        <span class="keyword">co_return</span> ret;</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>      }</div>
 <div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span> </div>
 <div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>    rpc_result&lt;R, coro_rpc_protocol&gt; ret;</div>
 <div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span><span class="preprocessor">#ifdef ENABLE_SSL</span></div>
@@ -392,9 +392,9 @@ $(document).ready(function(){initNavTree('coro__rpc_2coro__rpc__client_8hpp_sour
 <div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>    static_check&lt;func, Args...&gt;();</div>
 <div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
 <div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    async_simple::Promise&lt;async_simple::Unit&gt; promise;</div>
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>    asio_util::period_timer timer(get_io_context());</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>    asio_util::period_timer timer(executor_wrapper_.get_executor());</div>
 <div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>    timeout(timer, duration, promise, <span class="stringliteral">&quot;rpc call timer canceled&quot;</span>)</div>
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>        .via(&amp;executor_)</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>        .via(&amp;executor_wrapper_)</div>
 <div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>        .detach();</div>
 <div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span> </div>
 <div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span><span class="preprocessor">#ifdef ENABLE_SSL</span></div>
@@ -426,7 +426,7 @@ $(document).ready(function(){initNavTree('coro__rpc_2coro__rpc__client_8hpp_sour
 <div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>    <span class="keyword">co_return</span> ret;</div>
 <div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>  }</div>
 <div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span> </div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno"><a class="line" href="classcoro__rpc_1_1coro__rpc__client.html#a8eb3073f969ef8d2085cc1ff5192d818">  337</a></span>  <span class="keyword">auto</span> &amp;<a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#a8eb3073f969ef8d2085cc1ff5192d818">get_executor</a>() { <span class="keywordflow">return</span> executor_; }</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno"><a class="line" href="classcoro__rpc_1_1coro__rpc__client.html#a8eb3073f969ef8d2085cc1ff5192d818">  337</a></span>  <span class="keyword">auto</span> &amp;<a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#a8eb3073f969ef8d2085cc1ff5192d818">get_executor</a>() { <span class="keywordflow">return</span> executor_wrapper_; }</div>
 <div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span> </div>
 <div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>  uint32_t get_client_id()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> client_id_; }</div>
 <div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span> </div>
@@ -690,7 +690,7 @@ $(document).ready(function(){initNavTree('coro__rpc_2coro__rpc__client_8hpp_sour
 <div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> FuncArgs&gt;</div>
 <div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>  <span class="keyword">auto</span> get_func_args() {</div>
 <div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span>    <span class="keyword">using </span>First = std::tuple_element_t&lt;0, FuncArgs&gt;;</div>
-<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>    <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> has_conn_v = is_specialization&lt;First, context&gt;::value;</div>
+<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>    <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> has_conn_v = <span class="keyword">requires</span> { <span class="keyword">typename</span> First::return_type; };</div>
 <div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>    <span class="keywordflow">return</span> get_args&lt;has_conn_v, FuncArgs&gt;();</div>
 <div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>  }</div>
 <div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span> </div>
@@ -752,54 +752,48 @@ $(document).ready(function(){initNavTree('coro__rpc_2coro__rpc__client_8hpp_sour
 <div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>    <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>  }</div>
 <div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span> </div>
-<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>  asio::io_context &amp;get_io_context() {</div>
-<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>    assert(io_context_ptr_);</div>
-<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>    <span class="keywordflow">return</span> *io_context_ptr_;</div>
-<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>  }</div>
-<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span> </div>
-<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span><span class="preprocessor">#ifdef UNIT_TEST_INJECT</span></div>
-<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span> <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>  std::errc sync_connect(<span class="keyword">const</span> std::string &amp;host, <span class="keyword">const</span> std::string &amp;port) {</div>
-<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>    <span class="keywordflow">return</span> async_simple::coro::syncAwait(<a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#ad03906fa7bffb953c06a09002b72e84b">connect</a>(host, port));</div>
-<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>  }</div>
-<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span> </div>
-<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>  <span class="keyword">template</span> &lt;<span class="keyword">auto</span> func, <span class="keyword">typename</span>... Args&gt;</div>
-<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>  rpc_result&lt;decltype(get_return_type&lt;func&gt;()), coro_rpc_protocol&gt; sync_call(</div>
-<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>      Args &amp;&amp;...args) {</div>
-<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>    <span class="keywordflow">return</span> async_simple::coro::syncAwait(</div>
-<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>        call&lt;func&gt;(std::forward&lt;Args&gt;(args)...));</div>
-<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>  }</div>
-<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span> <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>  std::unique_ptr&lt;asio::io_context&gt; inner_io_context_;</div>
-<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>  std::unique_ptr&lt;asio::io_context::work&gt; work_;</div>
-<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>  asio::io_context *io_context_ptr_ = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>  std::thread thd_;</div>
-<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>  asio_util::AsioExecutor executor_;</div>
-<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>  asio::ip::tcp::socket socket_;</div>
-<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>  std::vector&lt;std::byte&gt; read_buf_;</div>
-<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>  <span class="keyword">constexpr</span> <span class="keyword">static</span> std::size_t default_read_buf_size_ = 256;</div>
-<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span> </div>
-<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span><span class="preprocessor">#ifdef ENABLE_SSL</span></div>
-<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span>  asio::ssl::context ssl_ctx_{asio::ssl::context::sslv23};</div>
-<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>  std::unique_ptr&lt;asio::ssl::stream&lt;asio::ip::tcp::socket &amp;&gt;&gt; ssl_stream_;</div>
-<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>  <span class="keywordtype">bool</span> ssl_init_ret_ = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>  <span class="keywordtype">bool</span> use_ssl_ = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>  <span class="keywordtype">bool</span> is_timeout_ = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span> </div>
-<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>  uint32_t client_id_ = 0;</div>
-<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>  std::atomic&lt;bool&gt; has_closed_ = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>};</div>
-<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span>}  <span class="comment">// namespace coro_rpc</span></div>
+<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span><span class="preprocessor">#ifdef UNIT_TEST_INJECT</span></div>
+<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span> <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>  std::errc sync_connect(<span class="keyword">const</span> std::string &amp;host, <span class="keyword">const</span> std::string &amp;port) {</div>
+<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>    <span class="keywordflow">return</span> async_simple::coro::syncAwait(<a class="code hl_function" href="classcoro__rpc_1_1coro__rpc__client.html#ad03906fa7bffb953c06a09002b72e84b">connect</a>(host, port));</div>
+<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>  }</div>
+<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span> </div>
+<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>  <span class="keyword">template</span> &lt;<span class="keyword">auto</span> func, <span class="keyword">typename</span>... Args&gt;</div>
+<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>  rpc_result&lt;decltype(get_return_type&lt;func&gt;()), coro_rpc_protocol&gt; sync_call(</div>
+<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>      Args &amp;&amp;...args) {</div>
+<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>    <span class="keywordflow">return</span> async_simple::coro::syncAwait(</div>
+<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>        call&lt;func&gt;(std::forward&lt;Args&gt;(args)...));</div>
+<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>  }</div>
+<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span> <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>  std::unique_ptr&lt;asio::io_context&gt; inner_io_context_;</div>
+<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>  std::unique_ptr&lt;asio::io_context::work&gt; work_;</div>
+<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>  std::thread thd_;</div>
+<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>  asio_util::ExecutorWrapper&lt;asio::io_context::executor_type&gt; executor_wrapper_;</div>
+<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>  asio::ip::tcp::socket socket_;</div>
+<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>  std::vector&lt;std::byte&gt; read_buf_;</div>
+<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>  <span class="keyword">constexpr</span> <span class="keyword">static</span> std::size_t default_read_buf_size_ = 256;</div>
+<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span> </div>
+<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span><span class="preprocessor">#ifdef ENABLE_SSL</span></div>
+<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>  asio::ssl::context ssl_ctx_{asio::ssl::context::sslv23};</div>
+<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>  std::unique_ptr&lt;asio::ssl::stream&lt;asio::ip::tcp::socket &amp;&gt;&gt; ssl_stream_;</div>
+<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>  <span class="keywordtype">bool</span> ssl_init_ret_ = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>  <span class="keywordtype">bool</span> use_ssl_ = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>  <span class="keywordtype">bool</span> is_timeout_ = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span> </div>
+<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>  uint32_t client_id_ = 0;</div>
+<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>  std::atomic&lt;bool&gt; has_closed_ = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>};</div>
+<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span>}  <span class="comment">// namespace coro_rpc</span></div>
 <div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html">coro_rpc::coro_rpc_client</a></div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:92</div></div>
-<div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html_a076c617b04c0a5afb7f8e53dba903d7b"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html#a076c617b04c0a5afb7f8e53dba903d7b">coro_rpc::coro_rpc_client::coro_rpc_client</a></div><div class="ttdeci">coro_rpc_client(asio::io_context &amp;io_context, uint32_t client_id=0)</div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:100</div></div>
-<div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html_a18d487022c0e8da13755249ab0062d8b"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html#a18d487022c0e8da13755249ab0062d8b">coro_rpc::coro_rpc_client::call</a></div><div class="ttdeci">async_simple::coro::Lazy&lt; rpc_result&lt; decltype(get_return_type&lt; func &gt;()), coro_rpc_protocol &gt; call(Args... args)</div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:254</div></div>
-<div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html_a45956d2dfb6d78ad7e461f429d85c63a"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html#a45956d2dfb6d78ad7e461f429d85c63a">coro_rpc::coro_rpc_client::call_for</a></div><div class="ttdeci">async_simple::coro::Lazy&lt; rpc_result&lt; decltype(get_return_type&lt; func &gt;()), coro_rpc_protocol &gt; call_for(auto duration, Args... args)</div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:272</div></div>
+<div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html_a0bfd666b5c5399e5e3336b8c043cf135"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html#a0bfd666b5c5399e5e3336b8c043cf135">coro_rpc::coro_rpc_client::coro_rpc_client</a></div><div class="ttdeci">coro_rpc_client(asio::io_context::executor_type executor, uint32_t client_id=0)</div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:100</div></div>
+<div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html_a18d487022c0e8da13755249ab0062d8b"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html#a18d487022c0e8da13755249ab0062d8b">coro_rpc::coro_rpc_client::call</a></div><div class="ttdeci">async_simple::coro::Lazy&lt; rpc_result&lt; decltype(get_return_type&lt; func &gt;()), coro_rpc_protocol &gt; call(Args... args)</div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:253</div></div>
+<div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html_a45956d2dfb6d78ad7e461f429d85c63a"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html#a45956d2dfb6d78ad7e461f429d85c63a">coro_rpc::coro_rpc_client::call_for</a></div><div class="ttdeci">async_simple::coro::Lazy&lt; rpc_result&lt; decltype(get_return_type&lt; func &gt;()), coro_rpc_protocol &gt; call_for(auto duration, Args... args)</div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:271</div></div>
 <div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html_a8eb3073f969ef8d2085cc1ff5192d818"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html#a8eb3073f969ef8d2085cc1ff5192d818">coro_rpc::coro_rpc_client::get_executor</a></div><div class="ttdeci">auto &amp; get_executor()</div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:337</div></div>
-<div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html_aaa0281fdd4c7bdd834e54493e0ea629a"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html#aaa0281fdd4c7bdd834e54493e0ea629a">coro_rpc::coro_rpc_client::coro_rpc_client</a></div><div class="ttdeci">coro_rpc_client(uint32_t client_id=0)</div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:111</div></div>
-<div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html_ad03906fa7bffb953c06a09002b72e84b"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html#ad03906fa7bffb953c06a09002b72e84b">coro_rpc::coro_rpc_client::connect</a></div><div class="ttdeci">async_simple::coro::Lazy&lt; std::errc &gt; connect(std::string host, std::string port, std::chrono::steady_clock::duration timeout_duration=std::chrono::seconds(5))</div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:146</div></div>
-<div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html_ad77d17da7997732f650146a149319563"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html#ad77d17da7997732f650146a149319563">coro_rpc::coro_rpc_client::has_closed</a></div><div class="ttdeci">bool has_closed()</div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:133</div></div>
+<div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html_aaa0281fdd4c7bdd834e54493e0ea629a"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html#aaa0281fdd4c7bdd834e54493e0ea629a">coro_rpc::coro_rpc_client::coro_rpc_client</a></div><div class="ttdeci">coro_rpc_client(uint32_t client_id=0)</div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:109</div></div>
+<div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html_ad03906fa7bffb953c06a09002b72e84b"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html#ad03906fa7bffb953c06a09002b72e84b">coro_rpc::coro_rpc_client::connect</a></div><div class="ttdeci">async_simple::coro::Lazy&lt; std::errc &gt; connect(std::string host, std::string port, std::chrono::steady_clock::duration timeout_duration=std::chrono::seconds(5))</div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:143</div></div>
+<div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html_ad77d17da7997732f650146a149319563"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html#ad77d17da7997732f650146a149319563">coro_rpc::coro_rpc_client::has_closed</a></div><div class="ttdeci">bool has_closed()</div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:130</div></div>
 <div class="ttc" id="acommon__service_8hpp_html"><div class="ttname"><a href="common__service_8hpp.html">common_service.hpp</a></div></div>
 <div class="ttc" id="acommon__service_8hpp_html_a5fc3482cb664dab769dc6a2622b2a282"><div class="ttname"><a href="common__service_8hpp.html#a5fc3482cb664dab769dc6a2622b2a282">coro_rpc::file_exists</a></div><div class="ttdeci">bool file_exists(auto &amp;path)</div><div class="ttdef"><b>Definition:</b> common_service.hpp:49</div></div>
 <div class="ttc" id="astructcoro__rpc_1_1rpc__return__type_html"><div class="ttname"><a href="structcoro__rpc_1_1rpc__return__type.html">coro_rpc::rpc_return_type</a></div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:60</div></div>

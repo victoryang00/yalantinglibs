@@ -179,8 +179,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>QuitCallback</b> = s
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a281d838dd6e17b94b46864c26112df7c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcoro__rpc_1_1coro__connection.html#a281d838dd6e17b94b46864c26112df7c">coro_connection</a> (asio::io_context &amp;io_context, asio::ip::tcp::socket socket, std::chrono::steady_clock::duration timeout_duration=std::chrono::seconds(0))</td></tr>
-<tr class="separator:a281d838dd6e17b94b46864c26112df7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afaf958c88035163f628517fbfcc0ce38"><td class="memTemplParams" colspan="2">template&lt;typename executor_t &gt; </td></tr>
+<tr class="memitem:afaf958c88035163f628517fbfcc0ce38"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcoro__rpc_1_1coro__connection.html#afaf958c88035163f628517fbfcc0ce38">coro_connection</a> (executor_t executor, asio::ip::tcp::socket socket, std::chrono::steady_clock::duration timeout_duration=std::chrono::seconds(0))</td></tr>
+<tr class="separator:afaf958c88035163f628517fbfcc0ce38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a796b7cc2048959900ba43bd9d584b941"><td class="memTemplParams" colspan="2"><a id="a796b7cc2048959900ba43bd9d584b941" name="a796b7cc2048959900ba43bd9d584b941"></a>
 template&lt;typename rpc_protocol &gt; </td></tr>
 <tr class="memitem:a796b7cc2048959900ba43bd9d584b941"><td class="memTemplItemLeft" align="right" valign="top">async_simple::coro::Lazy&lt; void &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>start</b> (typename rpc_protocol::router &amp;router) noexcept</td></tr>
@@ -212,15 +213,20 @@ template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aeeb458a389fff3c59eca41dcb2c87558"><td class="memItemLeft" align="right" valign="top"><a id="aeeb458a389fff3c59eca41dcb2c87558" name="aeeb458a389fff3c59eca41dcb2c87558"></a>
 std::any&#160;</td><td class="memItemRight" valign="bottom"><b>get_tag</b> ()</td></tr>
 <tr class="separator:aeeb458a389fff3c59eca41dcb2c87558"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96bbcd62d852dd563609c579b5bd8e84"><td class="memItemLeft" align="right" valign="top"><a id="a96bbcd62d852dd563609c579b5bd8e84" name="a96bbcd62d852dd563609c579b5bd8e84"></a>
+auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_executor</b> ()</td></tr>
+<tr class="separator:a96bbcd62d852dd563609c579b5bd8e84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>TODO: add doc </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a281d838dd6e17b94b46864c26112df7c" name="a281d838dd6e17b94b46864c26112df7c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a281d838dd6e17b94b46864c26112df7c">&#9670;&#160;</a></span>coro_connection()</h2>
+<a id="afaf958c88035163f628517fbfcc0ce38" name="afaf958c88035163f628517fbfcc0ce38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afaf958c88035163f628517fbfcc0ce38">&#9670;&#160;</a></span>coro_connection()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename executor_t &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -228,8 +234,8 @@ std::any&#160;</td><td class="memItemRight" valign="bottom"><b>get_tag</b> ()</t
         <tr>
           <td class="memname">coro_rpc::coro_connection::coro_connection </td>
           <td>(</td>
-          <td class="paramtype">asio::io_context &amp;&#160;</td>
-          <td class="paramname"><em>io_context</em>, </td>
+          <td class="paramtype">executor_t&#160;</td>
+          <td class="paramname"><em>executor</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

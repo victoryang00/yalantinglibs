@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['memory_5freader_0',['memory_reader',['../structstruct__pack_1_1detail_1_1memory__reader.html',1,'struct_pack::detail']]]
+  ['ssl_5fconfigure_0',['ssl_configure',['../structcoro__rpc_1_1ssl__configure.html',1,'coro_rpc']]]
 ];

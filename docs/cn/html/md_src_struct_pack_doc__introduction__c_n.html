@@ -428,20 +428,37 @@ benchmark</h1>
 </div>
     <h1><a class="anchor" id="autotoc_md44"></a>
 向前/向后兼容性</h1>
-<p>当对象增加新的字段时，怎么保证兼容新旧对象的解析呢？当用户需要添加字段时，只需要在**新对象末尾** 增加新的 <code>struct_pack::compatible&lt;T&gt;</code> 字段即可。<br  />
+<p>当对象增加新的字段时，怎么保证兼容新旧对象的解析呢？当用户需要添加字段时，只需要在 增加新的 <code>struct_pack::compatible&lt;T&gt;</code> 字段即可。<br  />
 以person对象为例：</p>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>person {</div>
 <div class="line">  <span class="keywordtype">int</span> age;</div>
 <div class="line">  std::string name;</div>
 <div class="line">};</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">struct </span>person1 {</div>
+<div class="line"><span class="keyword">struct </span>person_v0 {</div>
 <div class="line">  <span class="keywordtype">int</span> age;</div>
 <div class="line">  std::string name;</div>
-<div class="line">  struct_pack::compatible&lt;int32_t&gt; id;</div>
-<div class="line">  struct_pack::compatible&lt;bool&gt; maybe;</div>
+<div class="line">  struct_pack::compatible&lt;bool&gt; maybe; <span class="comment">//版本号默认为0</span></div>
 <div class="line">};</div>
-</div><!-- fragment --><p>struct_pack保证这两个类可以通过序列化和反序列化实现安全的相互转换，从而实现了向前/向后的兼容性。</p>
+<div class="line"> </div>
+<div class="line"><span class="keyword">struct </span>person_v1 {</div>
+<div class="line">  <span class="keywordtype">int</span> age;</div>
+<div class="line">  std::string name;</div>
+<div class="line">  struct_pack::compatible&lt;int32_t,20230101&gt; id; <span class="comment">//版本号为20230101</span></div>
+<div class="line">  struct_pack::compatible&lt;bool&gt; maybe; </div>
+<div class="line">  struct_pack::compatible&lt;std::string,20230101&gt; password; <span class="comment">//版本号为20230101</span></div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">struct </span>person_v2 {</div>
+<div class="line">  <span class="keywordtype">int</span> age;</div>
+<div class="line">  std::string name;</div>
+<div class="line">  struct_pack::compatible&lt;int32_t,20230101&gt; id; </div>
+<div class="line">  struct_pack::compatible&lt;bool&gt; maybe; </div>
+<div class="line">  struct_pack::compatible&lt;std::string,20230101&gt; password;</div>
+<div class="line">  struct_pack::compatible&lt;double,20230402&gt; salary; <span class="comment">//版本号应该递增。故新填入的版本号20230402大于20230101</span></div>
+<div class="line">};</div>
+</div><!-- fragment --><p>struct_pack保证上述的这四个类型之间，可以通过序列化和反序列化安全的相互转换到任何一个其他类型，从而实现了向前/向后的兼容性。</p>
+<p>注意，如果版本号不递增，则struct_pack不能保证不同版本结构体之间的兼容性。由于struct_pack不检查compatible字段的类型，因此这种情况下的类型转换是未定义行为！</p>
 <h1><a class="anchor" id="autotoc_md45"></a>
 为什么struct_pack更快？</h1>
 <ol type="1">

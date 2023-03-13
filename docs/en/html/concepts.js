@@ -1,12 +1,10 @@
 var concepts =
 [
-    [ "struct_pack", null, [
-      [ "detail", null, [
-        [ "trivially_copyable_container", "conceptstruct__pack_1_1detail_1_1trivially__copyable__container.html", null ],
-        [ "struct_pack_byte", "conceptstruct__pack_1_1detail_1_1struct__pack__byte.html", null ],
-        [ "struct_pack_buffer", "conceptstruct__pack_1_1detail_1_1struct__pack__buffer.html", null ],
-        [ "exist_compatible_member", "conceptstruct__pack_1_1detail_1_1exist__compatible__member.html", null ],
-        [ "unexist_compatible_member", "conceptstruct__pack_1_1detail_1_1unexist__compatible__member.html", null ]
-      ] ]
+    [ "coro_rpc", null, [
+      [ "protocol", null, [
+        [ "has_gen_register_key", "conceptcoro__rpc_1_1protocol_1_1has__gen__register__key.html", null ]
+      ] ],
+      [ "has_get_reserve_size", "conceptcoro__rpc_1_1has__get__reserve__size.html", null ],
+      [ "apply_user_buf", "conceptcoro__rpc_1_1apply__user__buf.html", null ]
     ] ]
 ];

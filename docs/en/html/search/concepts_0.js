@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['exist_5fcompatible_5fmember_0',['exist_compatible_member',['../conceptstruct__pack_1_1detail_1_1exist__compatible__member.html',1,'struct_pack::detail']]],
-  ['struct_5fpack_5fbuffer_1',['struct_pack_buffer',['../conceptstruct__pack_1_1detail_1_1struct__pack__buffer.html',1,'struct_pack::detail']]],
-  ['struct_5fpack_5fbyte_2',['struct_pack_byte',['../conceptstruct__pack_1_1detail_1_1struct__pack__byte.html',1,'struct_pack::detail']]],
-  ['trivially_5fcopyable_5fcontainer_3',['trivially_copyable_container',['../conceptstruct__pack_1_1detail_1_1trivially__copyable__container.html',1,'struct_pack::detail']]],
-  ['unexist_5fcompatible_5fmember_4',['unexist_compatible_member',['../conceptstruct__pack_1_1detail_1_1unexist__compatible__member.html',1,'struct_pack::detail']]]
+  ['apply_5fuser_5fbuf_0',['apply_user_buf',['../conceptcoro__rpc_1_1apply__user__buf.html',1,'coro_rpc']]],
+  ['has_5fgen_5fregister_5fkey_1',['has_gen_register_key',['../conceptcoro__rpc_1_1protocol_1_1has__gen__register__key.html',1,'coro_rpc::protocol']]],
+  ['has_5fget_5freserve_5fsize_2',['has_get_reserve_size',['../conceptcoro__rpc_1_1has__get__reserve__size.html',1,'coro_rpc']]]
 ];

@@ -166,8 +166,8 @@ $(document).ready(function(){initNavTree('classcoro__rpc_1_1coro__rpc__client.ht
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a076c617b04c0a5afb7f8e53dba903d7b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcoro__rpc_1_1coro__rpc__client.html#a076c617b04c0a5afb7f8e53dba903d7b">coro_rpc_client</a> (asio::io_context &amp;io_context, uint32_t client_id=0)</td></tr>
-<tr class="separator:a076c617b04c0a5afb7f8e53dba903d7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bfd666b5c5399e5e3336b8c043cf135"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcoro__rpc_1_1coro__rpc__client.html#a0bfd666b5c5399e5e3336b8c043cf135">coro_rpc_client</a> (asio::io_context::executor_type executor, uint32_t client_id=0)</td></tr>
+<tr class="separator:a0bfd666b5c5399e5e3336b8c043cf135"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa0281fdd4c7bdd834e54493e0ea629a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcoro__rpc_1_1coro__rpc__client.html#aaa0281fdd4c7bdd834e54493e0ea629a">coro_rpc_client</a> (uint32_t client_id=0)</td></tr>
 <tr class="separator:aaa0281fdd4c7bdd834e54493e0ea629a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad77d17da7997732f650146a149319563"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcoro__rpc_1_1coro__rpc__client.html#ad77d17da7997732f650146a149319563">has_closed</a> ()</td></tr>
@@ -207,11 +207,11 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_client_id</b>
 <div class="line">  syncAwait(show_rpc_call(client));</div>
 <div class="line">}</div>
 <div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html">coro_rpc::coro_rpc_client</a></div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:92</div></div>
-<div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html_a18d487022c0e8da13755249ab0062d8b"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html#a18d487022c0e8da13755249ab0062d8b">coro_rpc::coro_rpc_client::call</a></div><div class="ttdeci">async_simple::coro::Lazy&lt; rpc_result&lt; decltype(get_return_type&lt; func &gt;()), coro_rpc_protocol &gt; call(Args... args)</div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:254</div></div>
-<div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html_ad03906fa7bffb953c06a09002b72e84b"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html#ad03906fa7bffb953c06a09002b72e84b">coro_rpc::coro_rpc_client::connect</a></div><div class="ttdeci">async_simple::coro::Lazy&lt; std::errc &gt; connect(std::string host, std::string port, std::chrono::steady_clock::duration timeout_duration=std::chrono::seconds(5))</div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:146</div></div>
+<div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html_a18d487022c0e8da13755249ab0062d8b"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html#a18d487022c0e8da13755249ab0062d8b">coro_rpc::coro_rpc_client::call</a></div><div class="ttdeci">async_simple::coro::Lazy&lt; rpc_result&lt; decltype(get_return_type&lt; func &gt;()), coro_rpc_protocol &gt; call(Args... args)</div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:253</div></div>
+<div class="ttc" id="aclasscoro__rpc_1_1coro__rpc__client_html_ad03906fa7bffb953c06a09002b72e84b"><div class="ttname"><a href="classcoro__rpc_1_1coro__rpc__client.html#ad03906fa7bffb953c06a09002b72e84b">coro_rpc::coro_rpc_client::connect</a></div><div class="ttdeci">async_simple::coro::Lazy&lt; std::errc &gt; connect(std::string host, std::string port, std::chrono::steady_clock::duration timeout_duration=std::chrono::seconds(5))</div><div class="ttdef"><b>Definition:</b> coro_rpc_client.hpp:143</div></div>
 </div><!-- fragment --> </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a076c617b04c0a5afb7f8e53dba903d7b" name="a076c617b04c0a5afb7f8e53dba903d7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a076c617b04c0a5afb7f8e53dba903d7b">&#9670;&#160;</a></span>coro_rpc_client() <span class="overload">[1/2]</span></h2>
+<a id="a0bfd666b5c5399e5e3336b8c043cf135" name="a0bfd666b5c5399e5e3336b8c043cf135"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bfd666b5c5399e5e3336b8c043cf135">&#9670;&#160;</a></span>coro_rpc_client() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -222,8 +222,8 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_client_id</b>
         <tr>
           <td class="memname">coro_rpc::coro_rpc_client::coro_rpc_client </td>
           <td>(</td>
-          <td class="paramtype">asio::io_context &amp;&#160;</td>
-          <td class="paramname"><em>io_context</em>, </td>
+          <td class="paramtype">asio::io_context::executor_type&#160;</td>
+          <td class="paramname"><em>executor</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['start_0',['start',['../classcoro__rpc_1_1coro__rpc__server.html#abe5e80d7020e513b3dc78566f6c0327c',1,'coro_rpc::coro_rpc_server']]],
-  ['stop_1',['stop',['../classcoro__rpc_1_1coro__rpc__server.html#a3bb50fe6d0587ea871780d5e3b46cec8',1,'coro_rpc::coro_rpc_server']]]
+  ['start_0',['start',['../classcoro__rpc_1_1coro__rpc__server__base.html#a39bcf68bc65425894a64de510e117e36',1,'coro_rpc::coro_rpc_server_base']]],
+  ['stop_1',['stop',['../classcoro__rpc_1_1coro__rpc__server__base.html#a198a7c3f2f2924266e4a4175f4f018b6',1,'coro_rpc::coro_rpc_server_base']]]
 ];

@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['is_5ftrivial_5fserializable_0',['is_trivial_serializable',['../structstruct__pack_1_1detail_1_1is__trivial__serializable.html',1,'struct_pack::detail']]]
+  ['router_0',['router',['../classcoro__rpc_1_1protocol_1_1router.html',1,'coro_rpc::protocol']]],
+  ['rpc_5freturn_5ftype_1',['rpc_return_type',['../structcoro__rpc_1_1rpc__return__type.html',1,'coro_rpc']]],
+  ['rpc_5freturn_5ftype_3c_20void_20_3e_2',['rpc_return_type&lt; void &gt;',['../structcoro__rpc_1_1rpc__return__type_3_01void_01_4.html',1,'coro_rpc']]]
 ];

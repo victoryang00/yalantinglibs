@@ -1,6 +1,6 @@
 var classcoro__rpc_1_1coro__rpc__client =
 [
-    [ "coro_rpc_client", "classcoro__rpc_1_1coro__rpc__client.html#a076c617b04c0a5afb7f8e53dba903d7b", null ],
+    [ "coro_rpc_client", "classcoro__rpc_1_1coro__rpc__client.html#a0bfd666b5c5399e5e3336b8c043cf135", null ],
     [ "coro_rpc_client", "classcoro__rpc_1_1coro__rpc__client.html#aaa0281fdd4c7bdd834e54493e0ea629a", null ],
     [ "call", "classcoro__rpc_1_1coro__rpc__client.html#a18d487022c0e8da13755249ab0062d8b", null ],
     [ "call_for", "classcoro__rpc_1_1coro__rpc__client.html#a45956d2dfb6d78ad7e461f429d85c63a", null ],
