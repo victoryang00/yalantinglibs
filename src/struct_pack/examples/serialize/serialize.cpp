@@ -50,20 +50,53 @@ struct fread_stream {
   ~fread_stream() { fclose(file); }
 };
 
+template<size_t out>
+struct stat{
+    std::array<int, out> sb;
+    auto operator==(const stat& rhs) const {
+        for (int i = 0; i < out; i++) {
+            if (sb[i] != rhs.sb[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+    stat(){
+        for (int i = 0; i < out; i++) {
+            sb[i] = rand() % 100;
+        }
+    }
+};
+
+template <size_t in,size_t out>
 struct person {
   int age;
+  std::array<stat<out>, in>state ;
   std::string name;
 
   auto operator==(const person& rhs) const {
+    for (int i = 0; i < in; i++) {
+      printf("%d\n", state[i]);
+      if (state[i] != rhs.state[i]) {
+        return false;
+      }
+    }
     return age == rhs.age && name == rhs.name;
   }
 };
-
 //clang-format off
 void basic_usage() {
-  person p{20, "tom"};
+  std::array<stat<28>, 54> u;
+  std::array<stat<28>, 54> u2;
+  for (int i = 0; i < 54; i++) {
+    u[i] = stat<28>();
+  }
+  for (int i = 0; i < 54; i++) {
+    u2[i] =  stat<28>();
+  }
+  person<54,28> p{20, u, "tom"};
 
-  person p2{.age = 21, .name = "Betty"};
+  person<54,28> p2{.age = 21, .state = u2, .name = "Betty"};
 
   // serialize api
   // api 1. serialize with default container
@@ -83,12 +116,12 @@ void basic_usage() {
   }
   // api 5. serialize with offset
   {
-    auto buffer = struct_pack::serialize_with_offset(/* offset = */ 2, p);
+    auto buffer = struct_pack::serialize_with_offset(/* offset = */ 3, p);
     assert(buffer[0] == '\0' && buffer[1] == '\0');
   }
   // api 6. serialize varadic param
   {
-    person p2{.age = 21, .name = "Betty"};
+    person<54,28> p2{.age = 21, .name = "Betty"};
     auto buffer = struct_pack::serialize(p.age, p2.name);
   }
   // api 7. serialize to stream
@@ -103,20 +136,20 @@ void basic_usage() {
   auto buffer = struct_pack::serialize(p);
   // api 1. deserialize object to return value
   {
-    auto p2 = struct_pack::deserialize<person>(buffer);
+    auto p2 = struct_pack::deserialize<person<54,28>>(buffer);
     assert(p2);  // no error
     assert(p2.value() == p2);
   }
   // api 2. deserialize object to reference
   {
-    person p2;
+    person <54,28>p2;
     [[maybe_unused]] auto ec = struct_pack::deserialize_to(p2, buffer);
     assert(ec == struct_pack::errc{});
     assert(p == p2);
   }
   // api 3. partial deserialize
   {
-    auto name = struct_pack::get_field<person, 1>(buffer);
+    auto name = struct_pack::get_field<person<54,28>, 2>(buffer);
     assert(name);  // no error
     assert(p.name == name.value());
   }
@@ -131,7 +164,7 @@ void basic_usage() {
   }
   // api 4. varadic deserialize_to
   {
-    person p3;
+    person <54,28>p3;
     auto buffer = struct_pack::serialize(p.age, p2.name);
     [[maybe_unused]] auto result =
         struct_pack::deserialize_to(p3.age, buffer, p3.name);
@@ -140,13 +173,12 @@ void basic_usage() {
     assert(p3.name == p2.name);
   }
   // api 5. deserialize from stream
-  {
-    // std::ifstream ifs("struct_pack_demo.data",
-    //                   std::ofstream::in | std::ofstream::binary);
-    fread_stream ifs("struct_pack_demo.data");
-    auto p4 = struct_pack::deserialize<person>(ifs);
-    assert(p4 == p);
-  }
+
+  // std::ifstream ifs("struct_pack_demo.data",
+  //                   std::ofstream::in | std::ofstream::binary);
+  fread_stream ifs("struct_pack_demo.data");
+  auto p4 = struct_pack::deserialize<person<54,28>>(ifs);
+  printf("%d", p4 == p);
 }
 
 int main() { basic_usage(); }
